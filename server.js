@@ -13,6 +13,9 @@ const app = express();
 
 app.use(cors());
 app.use(express.json()); // To parse JSON bodies
+app.get('/', (req, res) => {
+  res.send('Hello');
+});
 
 // Use test routes
 app.use('/api/tests', testRoutes);
@@ -24,12 +27,24 @@ app.use('/api/samples', sampleRoutes);  // Ensure this line is present
 // Register sample routes
 app.use('/api/testTypes', testTypeRoutes);  // Ensure this line is present
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log('MongoDB connected'))
-.catch((err) => console.log(err));
+const mongoose = require('mongoose');
+
+const connectDB = async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+            serverSelectionTimeoutMS: 10000 // Timeout after 10 seconds
+        });
+        console.log('MongoDB connected!');
+    } catch (error) {
+        console.error('MongoDB connection error:', error.message);
+        process.exit(1); // Exit process with failure
+    }
+};
+
+connectDB();
+
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
