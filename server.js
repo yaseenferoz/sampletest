@@ -27,7 +27,6 @@ app.use('/api/samples', sampleRoutes);  // Ensure this line is present
 // Register sample routes
 app.use('/api/testTypes', testTypeRoutes);  // Ensure this line is present
 // Connect to MongoDB
-const mongoose = require('mongoose');
 
 const connectDB = async () => {
     try {
