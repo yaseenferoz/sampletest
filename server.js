@@ -26,6 +26,10 @@ app.use('/api/users', userRoutes);  // Add the user routes here
 app.use('/api/samples', sampleRoutes);  // Ensure this line is present
 // Register sample routes
 app.use('/api/testTypes', testTypeRoutes);  // Ensure this line is present
+app.use('/api/products', (req,res)=>{
+    return res.status(200);
+    message:"this is to test";
+});  // Ensure this line is present
 // Connect to MongoDB
 
 const connectDB = async () => {
